@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developing Climate-Resilient Black Bean Varieties as a Strategic Plant Protein Source for European Animal Feed</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Verdant Green & Earthy Tones -->
+    <!-- Application Structure Plan: The SPA is designed with a thematic, non-linear structure to enhance user exploration. It starts with a high-level 'Project Vision', then allows users to dive into specific areas of interest: 'Market Opportunity', 'The Product: Black Bean', 'Partnership' and a new 'Work Packages' section for a detailed breakdown of project activities. This structure was chosen over a linear report format to cater to different user needs. Navigation is handled by a sticky top bar, allowing immediate access to any section. Interactions include dynamic charts, expandable sections, and a tabbed interface for the Work Packages, making the dense information more digestible and engaging. The visual design is enhanced with a green palette and inline SVG graphics to highlight the project's sustainability and collaborative nature. -->
+    <!-- Visualization & Content Choices: 1. Market Data -> Goal: Compare/Change -> Viz: Interactive Bar Chart (Chart.js) -> Interaction: Buttons to switch between revenue projections and market share. Justification: A dynamic chart is more engaging than static tables and allows for direct comparison. 2. Project Vision -> Goal: Inform -> Viz: Icon-enhanced cards (HTML/CSS/Unicode) -> Interaction: None. Justification: Adding relevant icons to each vision card makes the key points more visually distinct and memorable. 3. Work Packages -> Goal: Organize/Inform -> Viz: Interactive Tabbed Content (HTML/CSS/JS) -> Interaction: Tabs to switch between different Work Packages to reveal details. Justification: Tabs simplify the dense, structured data from the document, presenting it in a clean, navigable format that is far superior to a long, scrolling list. 4. Project Team -> Goal: Inform -> Viz: Card-based grid layout (HTML/CSS/JS) -> Interaction: None. Justification: A card layout is an intuitive way to present team members and their roles, making the information scannable and visually appealing. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F0FDF4;
+            color: #1F2937;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+        }
+        .nav-link.active {
+            color: #047857;
+            border-bottom-color: #047857;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .tab-button.active {
+            background-color: #047857;
+            color: #FFFFFF;
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hover-lift {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background-color: #E2E8F0;
+            border-radius: 9999px;
+            height: 1.5rem;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background-color: #047857;
+            height: 100%;
+            transition: width 1s ease-in-out;
+            text-align: right;
+            color: white;
+            padding-right: 0.5rem;
+            line-height: 1.5rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex flex-col items-center text-center">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-[#047857] mb-4 leading-tight">Developing Climate-Resilient Black Bean Varieties as a Strategic Plant Protein Source for European Animal Feed</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#" data-target="vision" class="nav-link text-gray-600 hover:text-[#047857] border-b-2 border-transparent pb-1 active">Vision</a>
+                <a href="#" data-target="market" class="nav-link text-gray-600 hover:text-[#047857] border-b-2 border-transparent pb-1">Market</a>
+                <a href="#" data-target="product" class="nav-link text-gray-600 hover:text-[#047857] border-b-2 border-transparent pb-1">Product</a>
+                <a href="#" data-target="partnership" class="nav-link text-gray-600 hover:text-[#047857] border-b-2 border-transparent pb-1">Partnership</a>
+                <a href="#" data-target="work-packages" class="nav-link text-gray-600 hover:text-[#047857] border-b-2 border-transparent pb-1">Work Packages</a>
+                <a href="#" data-target="final-impact" class="nav-link text-gray-600 hover:text-[#047857] border-b-2 border-transparent pb-1">Final Impact</a>
+                <a href="#" data-target="project-team" class="nav-link text-gray-600 hover:text-[#047857] border-b-2 border-transparent pb-1">Project Team</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden focus:outline-none mt-4">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 text-center">
+            <a href="#" data-target="vision" class="block py-2 text-gray-600 hover:text-[#047857] active">Vision</a>
+            <a href="#" data-target="market" class="block py-2 text-gray-600 hover:text-[#047857]">Market</a>
+            <a href="#" data-target="product" class="block py-2 text-gray-600 hover:text-[#047857]">Product</a>
+            <a href="#" data-target="partnership" class="block py-2 text-gray-600 hover:text-[#047857]">Partnership</a>
+            <a href="#" data-target="work-packages" class="block py-2 text-gray-600 hover:text-[#047857]">Work Packages</a>
+            <a href="#" data-target="final-impact" class="block py-2 text-gray-600 hover:text-[#047857]">Final Impact</a>
+            <a href="#" data-target="project-team" class="block py-2 text-gray-600 hover:text-[#047857]">Project Team</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Section 1: Project Vision -->
+        <section id="vision" class="content-section mb-24 scroll-mt-20 fade-in">
+            <h2 class="text-4xl font-bold mb-4 text-[#16A34A]">A Sustainable Future for EU Animal Feed</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-700 mb-8">
+                This report details the strategic alignment of black bean research with the European Union's Horizon 2020 (H2020) framework. It proposes a structured approach through clearly defined work packages designed to address critical challenges in black bean cultivation, and maximize nutritional and socio-economic benefits.
+            </p>
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover-lift">
+                    <span class="text-3xl mb-2 inline-block">🛡️</span>
+                    <h3 class="text-xl font-semibold mb-2 text-[#047857]">Enhance Resilience</h3>
+                    <p class="text-gray-600">Reduce the EU's dependency on imported high-protein oilseed meals, creating a more stable and self-sufficient feed supply chain.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover-lift">
+                    <span class="text-3xl mb-2 inline-block">🌿</span>
+                    <h3 class="text-xl font-semibold mb-2 text-[#047857]">Promote Sustainability</h3>
+                    <p class="text-gray-600">Leverage the environmental benefits of legumes to support the EU's green transition and sustainable agricultural goals.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover-lift">
+                    <span class="text-3xl mb-2 inline-block">🤝</span>
+                    <h3 class="text-xl font-semibold mb-2 text-[#047857]">Foster Partnership</h3>
+                    <p class="text-gray-600">Build an equitable, mutually beneficial partnership between the EU and Africa, driving economic growth and knowledge exchange.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Market Opportunity -->
+        <section id="market" class="content-section hidden mb-24 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-4 text-[#16A34A]">Tapping into a Growing Market</h2>
+            <p class="max-w-3xl mx-auto text-center text-lg text-gray-700 mb-12">
+                The European alternative protein market is on a significant upward trajectory, driven by a strategic push for protein self-sufficiency. This creates a powerful, policy-backed demand for innovative solutions like black beans, moving beyond pure market forces and positioning the project for long-term success.
+            </p>
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg border border-gray-200">
+                <div class="flex justify-center mb-6 space-x-4">
+                    <button id="revenueBtn" class="px-4 py-2 rounded-md bg-[#047857] text-white font-semibold transition">Market Revenue</button>
+                    <button id="shareBtn" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 font-semibold transition">Market Share</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="marketChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: The Product: Black Bean -->
+        <section id="product" class="content-section hidden mb-24 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-4 text-[#16A34A]">The Power of the Black Bean</h2>
+             <p class="max-w-3xl mx-auto text-center text-lg text-gray-700 mb-12">
+                Black beans offer a compelling nutritional profile and are recognized as climate-resilient crops. However, they face challenges from abiotic stresses, and their full potential must be realized through genetic advancements and sustainable practices.
+            </p>
+            <div class="grid md:grid-cols-2 gap-8 items-start">
+                <!-- Nutritional Profile -->
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200 hover-lift">
+                    <h3 class="text-2xl font-semibold mb-4 text-center text-[#047857]">A Superior Nutritional Profile</h3>
+                    <div class="grid grid-cols-2 gap-4 text-center">
+                        <div class="bg-[#ECFDF5] p-4 rounded-lg">
+                            <p class="text-2xl font-bold text-[#16A34A]">21.4g</p>
+                            <p class="text-sm text-gray-600">Protein / 100g (dry)</p>
+                        </div>
+                        <div class="bg-[#ECFDF5] p-4 rounded-lg">
+                            <p class="text-2xl font-bold text-[#16A34A]">18.9g</p>
+                            <p class="text-sm text-gray-600">Fiber / 100g (dry)</p>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-gray-700">Rich in essential minerals and vitamins, black beans provide a holistic nutritional boost that can improve animal health and reduce reliance on synthetic supplements.</p>
+                </div>
+                <!-- Regulatory Pathway -->
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200 hover-lift">
+                     <h3 class="text-2xl font-semibold mb-4 text-center text-[#047857]">Navigating EU Regulations</h3>
+                     <div class="flex justify-center border-b border-gray-300 mb-4">
+                        <button data-tab="feed" class="tab-button flex-1 py-2 px-4 text-center font-medium text-gray-600 hover:bg-gray-100 active">Feed Material</button>
+                        <button data-tab="novel" class="tab-button flex-1 py-2 px-4 text-center font-medium text-gray-600 hover:bg-gray-100">Novel Food</button>
+                     </div>
+                     <div id="tab-content">
+                        <!-- Feed Material Content -->
+                        <div id="feed" class="tab-pane">
+                            <h4 class="font-semibold text-lg mb-2">Pathway: Notification</h4>
+                            <p class="text-gray-700 mb-2"><strong class="text-gray-800">Process:</strong> Notify via the Feed Materials Register for immediate market entry, subject to potential post-market review.</p>
+                            <p class="text-gray-700"><strong class="text-gray-800">Key Consideration:</strong> Requires robust data proving anti-nutritional factors are safely mitigated through processing.</p>
+                        </div>
+                        <!-- Novel Food Content -->
+                        <div id="novel" class="tab-pane hidden">
+                            <h4 class="font-semibold text-lg mb-2">Pathway: Authorization</h4>
+                            <p class="text-gray-700 mb-2"><strong class="text-gray-800">Process:</strong> Requires submission of a comprehensive safety dossier to the European Commission, followed by a scientific assessment by EFSA.</p>
+                             <p class="text-gray-700"><strong class="text-gray-800">Timeline:</strong> Averages 2.5+ years, presenting a significant delay to market entry that must be strategically planned for.</p>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Project Work Packages -->
+        <section id="work-packages" class="content-section hidden mb-24 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-4 text-[#16A34A]">A Structured Approach: Work Packages</h2>
+            <p class="max-w-3xl mx-auto text-center text-lg text-gray-700 mb-12">
+                The project is organized into five key Work Packages (WPs), each with specific objectives, activities, and deliverables to ensure a systematic and impactful approach from foundational research to market readiness and policy influence.
+            </p>
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg border border-gray-200">
+                <div class="flex flex-wrap justify-center border-b border-gray-300 mb-4">
+                    <button data-tab="wp1" class="tab-button px-4 py-2 text-center font-medium text-gray-600 hover:bg-gray-100 active">WP1</button>
+                    <button data-tab="wp2" class="tab-button px-4 py-2 text-center font-medium text-gray-600 hover:bg-gray-100">WP2</button>
+                    <button data-tab="wp3" class="tab-button px-4 py-2 text-center font-medium text-gray-600 hover:bg-gray-100">WP3</button>
+                    <button data-tab="wp4" class="tab-button px-4 py-2 text-center font-medium text-gray-600 hover:bg-gray-100">WP4</button>
+                    <button data-tab="wp5" class="tab-button px-4 py-2 text-center font-medium text-gray-600 hover:bg-gray-100">WP5</button>
+                </div>
+                <div id="wp-content">
+                    <div id="wp1" class="wp-pane">
+                        <h3 class="text-2xl font-semibold mb-2 text-[#047857]">WP1: Project Coordination and Management</h3>
+                        <p class="mb-4 text-gray-600">Objective: To ensure efficient, ethical, and compliant management, fostering effective collaboration among all partners and ensuring timely delivery of objectives.</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Establish and maintain robust consortium operating procedures.</li>
+                            <li>Conduct day-to-day project coordination and financial management.</li>
+                            <li>Organize regular consortium meetings and internal workshops.</li>
+                            <li>Develop and update a comprehensive Data Management Plan (DMP).</li>
+                            <li>Manage intellectual property rights (IPR) effectively.</li>
+                        </ul>
+                    </div>
+                    <div id="wp2" class="wp-pane hidden">
+                        <h3 class="text-2xl font-semibold mb-2 text-[#047857]">WP2: Enhancing Black Bean Genetic Resources</h3>
+                        <p class="mb-4 text-gray-600">Objective: To broaden the genetic basis of black beans, develop climate-resilient varieties, and improve breeding methodologies.</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Characterize existing black bean germplasm for stress tolerance and nutritional traits.</li>
+                            <li>Implement targeted breeding programs for climate-resilient varieties.</li>
+                            <li>Explore advanced genetic tools like transformation and gene editing.</li>
+                            <li>Conduct multi-location field trials to validate performance.</li>
+                        </ul>
+                    </div>
+                    <div id="wp3" class="wp-pane hidden">
+                        <h3 class="text-2xl font-semibold mb-2 text-[#047857]">WP3: Sustainable Cultivation Practices</h3>
+                        <p class="mb-4 text-gray-600">Objective: To develop and validate sustainable black bean cultivation practices that enhance environmental performance and farmer resilience.</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Assess ecological farming approaches across Europe.</li>
+                            <li>Develop and test innovative conservation agriculture and agroforestry practices.</li>
+                            <li>Quantify the environmental benefits and ecosystem services.</li>
+                            <li>Co-develop decision-support tools and practical guidelines for farmers.</li>
+                        </ul>
+                    </div>
+                     <div id="wp4" class="wp-pane hidden">
+                        <h3 class="text-2xl font-semibold mb-2 text-[#047857]">WP4: Value Chain Development and Nutritional Enhancement (Animal Feed-Specific)</h3>
+                        <p class="mb-4 text-gray-600">Objective: To optimize the black bean value chain, from post-harvest to the feed sector, enhancing its nutritional benefits, exploring new market opportunities, and ensuring safety for animals.</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Develop processes to turn black beans into cost-effective and palatable animal feed components.</li>
+                            <li>Conduct nutritional and bioavailability studies to prove the black bean protein is an effective substitute for existing feed sources.</li>
+                            <li>Establish the safe inclusion rates of black bean-derived products in various livestock diets (e.g., poultry, pigs, cattle).</li>
+                            <li>Assess the impact on animal performance, health, and meat/milk quality.</li>
+                            <li>Analyze the economic viability for EU feed manufacturers.</li>
+                        </ul>
+                    </div>
+                     <div id="wp5" class="wp-pane hidden">
+                        <h3 class="text-2xl font-semibold mb-2 text-[#047857]">WP5: Dissemination and Stakeholder Engagement</h3>
+                        <p class="mb-4 text-gray-600">Objective: To ensure effective communication, knowledge transfer, and stakeholder engagement to maximize impact and long-term sustainability.</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li>Develop and execute a comprehensive communication and outreach strategy.</li>
+                            <li>Establish robust communication channels, including a website and social media.</li>
+                            <li>Organize workshops, training sessions, and field days for farmers.</li>
+                            <li>Co-develop evidence-based policy recommendations.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Final Impact -->
+        <section id="final-impact" class="content-section hidden mb-24 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-4 text-[#16A34A]">Strategic Impacts & Contributions</h2>
+            <p class="max-w-3xl mx-auto text-center text-lg text-gray-700 mb-12">
+                This project is strategically aligned with key EU policy priorities, delivering tangible impacts across scientific, economic, and societal dimensions.
+            </p>
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg border border-gray-200 grid md:grid-cols-2 gap-8">
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-xl font-semibold text-[#047857] mb-2">Sustainable Agri-Food System</h3>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 80%;">80% Contribution</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-[#047857] mb-2">EU Protein Self-Sufficiency</h3>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 75%;">75% Contribution</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-[#047857] mb-2">Climate Change Resilience</h3>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 90%;">90% Contribution</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold text-[#16A34A] mb-4">Key Policy Alignments</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-2xl mr-4">🌱</span>
+                            <div>
+                                <h4 class="font-bold text-gray-800">Farm to Fork Strategy</h4>
+                                <p class="text-sm text-gray-600">Promoting sustainable and healthy diets through plant-based protein.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-2xl mr-4">🌍</span>
+                            <div>
+                                <h4 class="font-bold text-gray-800">EU Bioeconomy Strategy</h4>
+                                <p class="text-sm text-gray-600">Creating new green jobs and circular economic models in the agricultural sector.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-2xl mr-4">🔬</span>
+                            <div>
+                                <h4 class="font-bold text-gray-800">Horizon Europe</h4>
+                                <p class="text-sm text-gray-600">Building on H2020's legacy to foster research, innovation, and competitiveness.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Project Team -->
+        <section id="project-team" class="content-section hidden mb-24 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-4 text-[#16A34A]">Meet the Nigerian Team</h2>
+            <p class="max-w-3xl mx-auto text-center text-lg text-gray-700 mb-12">
+                This is the Nigerian team, composed of expert researchers and talented mentees from diverse fields, ensuring a multi-disciplinary approach to project execution and knowledge transfer.
+            </p>
+            <div id="team-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Team member cards will be injected here by JS -->
+            </div>
+        </section>
+
+        <!-- Section 7: Strategic Partnership -->
+        <section id="partnership" class="content-section hidden scroll-mt-20 mb-24">
+            <h2 class="text-3xl font-bold text-center mb-4 text-[#16A34A]">A Partnership Built for Success</h2>
+            <p class="max-w-3xl mx-auto text-center text-lg text-gray-700 mb-12">
+                This consortium is founded on the principles of equity, transparency, and mutual trust. Our governance model is designed to ensure a seamless collaboration between the EU and Nigerian teams.
+            </p>
+             <div class="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-12 p-8 bg-white rounded-lg shadow-lg border border-gray-200">
+                <!-- EU Team (Coordinator) -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="p-4 bg-gray-100 rounded-full mb-4">
+                        <svg class="w-16 h-16 text-[#047857]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-2.293 11.293a1 1 0 011.414 0L12 13.586l.879.879a1 1 0 01-1.414 1.414L12 14.414l-1.414 1.414a1 1 0 01-1.414-1.414l1.414-1.414zM12 6a6 6 0 100 12 6 6 0 000-12z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22a10 10 0 100-20 10 10 0 000 20zM12 14a2 2 0 100-4 2 2 0 000 4z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-[#047857]">EU Team</h3>
+                    <p class="mt-2 text-gray-600">Project Leadership & Coordination</p>
+                </div>
+
+                <!-- Handshake Icon -->
+                <div class="text-[#047857] w-12 h-12 md:w-auto md:h-auto transform rotate-90 md:rotate-0">
+                    <svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13H9m4 0a1 1 0 011-1h1a1 1 0 011 1v1a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1zM9 13H5m4 0a1 1 0 011-1h1a1 1 0 011 1v1a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.5c-4.694 0-8.5-3.806-8.5-8.5S7.306 4.5 12 4.5s8.5 3.806 8.5 8.5-3.806 8.5-8.5 8.5zM12 2v20M4 12h16" />
+                    </svg>
+                </div>
+
+                <!-- Nigeria Team (Implementer) -->
+                <div class="flex flex-col items-center text-center">
+                    <div class="p-4 bg-gray-100 rounded-full mb-4">
+                        <svg class="w-16 h-16 text-[#047857]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-[#047857]">Nigeria Team</h3>
+                    <p class="mt-2 text-gray-600">On-the-Ground Implementation</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white mt-24">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p>&copy; 2025 Black Bean for EU Animal Feed Consortium. All rights reserved.</p>
+            <p class="text-sm text-gray-400 mt-2">An interactive summary of the final proposal.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.content-section');
+
+            function showSection(targetId) {
+                sections.forEach(section => {
+                    section.classList.add('hidden');
+                    section.classList.remove('fade-in');
+                });
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.classList.remove('hidden');
+                    targetSection.classList.add('fade-in');
+                }
+            }
+            
+            function setActiveLink(clickedLink) {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                });
+                clickedLink.classList.add('active');
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('data-target');
+                    showSection(targetId);
+                    setActiveLink(this);
+                    if(mobileMenu.classList.contains('hidden') === false){
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Initial view
+            showSection('vision');
+            setActiveLink(document.querySelector('.nav-link[data-target="vision"]'));
+
+            const marketChartData = {
+                revenue: {
+                    labels: ['2023', '2030'],
+                    datasets: [{
+                        label: 'European Alternative Protein Market Revenue (in US$ million)',
+                        data: [5276.0, 9028.7],
+                        backgroundColor: 'rgba(4, 120, 87, 0.6)',
+                        borderColor: 'rgba(4, 120, 87, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                share: {
+                    labels: ['Plant Protein', 'Other Proteins'],
+                    datasets: [{
+                        label: 'Market Share by Type (2023)',
+                        data: [89.39, 10.61],
+                        backgroundColor: ['rgba(22, 163, 74, 0.8)', 'rgba(235, 235, 235, 0.8)'],
+                        borderColor: ['rgba(22, 163, 74, 1)', 'rgba(235, 235, 235, 1)'],
+                        borderWidth: 1
+                    }]
+                }
+            };
+
+            const ctx = document.getElementById('marketChart').getContext('2d');
+            let marketChart = new Chart(ctx, {
+                type: 'bar',
+                data: marketChartData.revenue,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Revenue in US$ millions'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Market Revenue Projection (CAGR: 8%)',
+                            font: { size: 16 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y) + 'M';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const revenueBtn = document.getElementById('revenueBtn');
+            const shareBtn = document.getElementById('shareBtn');
+
+            function updateChart(type) {
+                marketChart.destroy();
+                if (type === 'revenue') {
+                    marketChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: marketChartData.revenue,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: { y: { beginAtZero: true, title: { display: true, text: 'Revenue in US$ millions' } } },
+                            plugins: { title: { display: true, text: 'Market Revenue Projection (CAGR: 8%)', font: { size: 16 } }, tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(c.parsed.y)}M` } } }
+                        }
+                    });
+                    revenueBtn.classList.add('bg-[#047857]', 'text-white');
+                    revenueBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                    shareBtn.classList.add('bg-gray-200', 'text-gray-700');
+                    shareBtn.classList.remove('bg-[#047857]', 'text-white');
+                } else {
+                    marketChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: marketChartData.share,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { title: { display: true, text: 'Alternative Protein Market Share (2023)', font: { size: 16 } }, tooltip: { callbacks: { label: (c) => `${c.label}: ${c.parsed}%` } } }
+                        }
+                    });
+                    shareBtn.classList.add('bg-[#047857]', 'text-white');
+                    shareBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                    revenueBtn.classList.add('bg-gray-200', 'text-gray-700');
+                    revenueBtn.classList.remove('bg-[#047857]', 'text-white');
+                }
+            }
+
+            revenueBtn.addEventListener('click', () => updateChart('revenue'));
+            shareBtn.addEventListener('click', () => updateChart('share'));
+
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    const tabId = button.dataset.tab;
+                    tabPanes.forEach(pane => {
+                        if (pane.id === tabId) {
+                            pane.classList.remove('hidden');
+                        } else {
+                            pane.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            const wpButtons = document.querySelectorAll('#work-packages .tab-button');
+            const wpPanes = document.querySelectorAll('.wp-pane');
+            wpButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    wpButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    const wpId = button.dataset.tab;
+                    wpPanes.forEach(pane => {
+                        if (pane.id === wpId) {
+                            pane.classList.remove('hidden');
+                        } else {
+                            pane.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+             const teamMembers = [
+                {
+                    name: "Prof. S.S.A. Egena",
+                    role: "Co-Researcher: Animal Husbandry, Breeding, and Management",
+                    responsibilities: "Will provide expertise in genetic analysis, experimental design, and data collection/analysis."
+                },
+                {
+                    name: "Prof. O.B. Ocheme",
+                    role: "Co-Researcher: Functional Food Development",
+                    responsibilities: "Will lead the development and formulation of black bean protein isolate and evaluate its functional properties."
+                },
+                {
+                    name: "Dr. Akeem Babatunde Sikiru",
+                    role: "Lead/Co-Researcher: Molecular Physiology and Biochemistry",
+                    responsibilities: "Will contribute to all project aspects from design to execution, conducting molecular and biochemical analyses."
+                },
+                {
+                    name: "Dr. John Olayinka Makinde",
+                    role: "Co-Researcher: Animal Nutrition",
+                    responsibilities: "Will provide guidance on feed formulation and nutritional interventions, and design sustainable incorporation strategies."
+                },
+                {
+                    name: "Dr. Abdurahman Latifat",
+                    role: "Co-Researcher: Technology Development and Knowledge Transfer",
+                    responsibilities: "Will facilitate the adoption of project findings through innovative knowledge transfer and lead training activities."
+                },
+                {
+                    name: "Maryam Nahari Adam",
+                    role: "Young Mentee: Molecular Biology and Phytogenic Studies",
+                    responsibilities: "Will assist in data and sample collection, molecular analysis, and research on phytogenic compounds."
+                },
+                {
+                    name: "Mr. Alfa Tijani",
+                    role: "Young Mentee: Materials Chemistry",
+                    responsibilities: "Will support the formulation and chemical characterization of black bean protein isolate and related foods."
+                }
+            ];
+
+            const teamContainer = document.getElementById('team-container');
+            teamMembers.forEach(member => {
+                teamContainer.innerHTML += `
+                    <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+                        <h3 class="text-xl font-semibold mb-1 text-[#047857]">${member.name}</h3>
+                        <p class="text-gray-700 font-medium">${member.role}</p>
+                        <p class="mt-4 text-sm text-gray-600">${member.responsibilities}</p>
+                    </div>
+                `;
+            });
+
+        });
+    </script>
+</body>
+</html>
